@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Created by hhw on 4/22/16.
+ * Created by huang.tudou
  */
 public class DataOutput {
     String fileName = null;

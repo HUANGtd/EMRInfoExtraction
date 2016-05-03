@@ -1,27 +1,25 @@
-import basic.EMRInfoTree;
+import basic.EMRTree;
 import io.DataInput;
 import io.DataOutput;
 
 /**
- * Created by hhw on 4/21/16.
+ * Created by huang.tudou
  */
 public class EMRInfoExtraction {
     public static void main(String args[]) {
-        EMRInfoTree tree = new EMRInfoTree();
-        DataInput dict = new DataInput("data/category.txt");
+        EMRTree admission_tree = new EMRTree();
+        DataInput admission_dict = new DataInput("data/admission.txt");
 
-        for(int i = 1; i < 10; i++) {
-            // import dictionary and generate tree
-            tree = new EMRInfoTree();
-            dict.GenerateEMRInfoTree(tree);
+        // import dictionary and generate tree
+        admission_dict.GenerateEMRInfoTree(admission_tree);
 
-            // infomation extraction
-            DataInput data = new DataInput("data/data/data" + i + ".xml");
-            tree.parseEMRData(data.EMRDataReader());
+        // infomation extraction
+        DataInput data = new DataInput("data/data/admission.xml");
+        admission_tree.parseEMRData(data.EMRDataReader());
+        admission_tree.printTree();
 
-            // out put
-            DataOutput dop = new DataOutput("data/result/result" + i + ".txt");
-            dop.OutPut2txt(tree.toString());
-        }
+        // out put
+//        DataOutput dop = new DataOutput("data/result/r_admission.txt");
+//        dop.OutPut2txt(admission_tree.toString());
     }
 }

@@ -3,17 +3,18 @@ package basic;
 import java.util.ArrayList;
 
 /**
- * Created by hhw on 4/21/16.
+ * Created by huang.tudou
  */
-public class EMRInfoTree {
-    private EMRInfoNode root;
-    private ArrayList<EMRInfoNode> leaves = null;
+public class EMRTree {
+    private EMRNode root;
+    private String name = null;
+    private ArrayList<EMRLeafNode> leaves = null;
 
-    public EMRInfoTree() {
-        this.root = new EMRInfoNode("ROOT", 0);
+    public EMRTree() {
+        this.root = new EMRNode("ROOT", 0);
     }
 
-    public EMRInfoTree(EMRInfoNode root) {
+    public EMRTree(EMRNode root) {
         this.root = root;
     }
 
@@ -21,18 +22,18 @@ public class EMRInfoTree {
     public void parseEMRData(String data) {
         root.setContent(data);
 
-        for(EMRInfoNode node : root.getChildren()) {
+        for(EMRNode node : root.getChildren()) {
             node.setContent(getContent(node.getName(), data));
             setOffspringContent(node);
         }
 
-        for(EMRInfoNode leaf : this.leaves) {
+        for(EMRLeafNode leaf : this.leaves) {
             if(leaf.getContent() != null)
                 leaf.setSegments();
         }
     }
 
-    public void setOffspringContent(EMRInfoNode node) {
+    public void setOffspringContent(EMRNode node) {
         if(node.getIsLeaf()) {
             node.setContent(node.getFather().getContent());
             return;
@@ -42,7 +43,7 @@ public class EMRInfoTree {
             node.setContent(node.getFather().getContent());
         }
 
-        for(EMRInfoNode child : node.getChildren()) {
+        for(EMRNode child : node.getChildren()) {
             setOffspringContent(child);
         }
     }
@@ -53,6 +54,7 @@ public class EMRInfoTree {
         int endIndex = data.indexOf("</InnerValue><BackgroundText>" + name + "</BackgroundText>");
 
         if(startIndex < 0 || endIndex < 0) {
+//            return this.root.getContent();
             return null;
         }
         content = data.substring(startIndex, endIndex);
@@ -76,14 +78,14 @@ public class EMRInfoTree {
         return tree2String.toString();
     }
 
-    public void printNode(EMRInfoNode node, StringBuffer tree2String) {
+    public void printNode(EMRNode node, StringBuffer tree2String) {
         if(node.getIsLeaf() == true) {
-            printLeaf(node, tree2String);
+            printLeaf((EMRLeafNode)node, tree2String);
             return;
         }
 
         if(node == this.root) {
-            for(EMRInfoNode child : node.getChildren()) {
+            for(EMRNode child : node.getChildren()) {
                 printNode(child, tree2String);
             }
             return;
@@ -106,13 +108,13 @@ public class EMRInfoTree {
             tree2String.append("-----------------------------------------\n");
         }
 
-        for(EMRInfoNode child : node.getChildren()) {
+        for(EMRNode child : node.getChildren()) {
             printNode(child, tree2String);
         }
         tree2String.append("\n");
     }
 
-    public void printLeaf(EMRInfoNode node, StringBuffer tree2String) {
+    public void printLeaf(EMRLeafNode node, StringBuffer tree2String) {
         for(int i = 0; i < node.getLevel()-1; i++) {
             tree2String.append("    ");
         }
@@ -123,6 +125,17 @@ public class EMRInfoTree {
             }
         }
         tree2String.append("]");
+
+//        tree2String.append("[" + node.getType() + "]");
+//        if(node.getType() == 2) {
+//            tree2String.append("[" + node.getType());
+//            for(String s : node.getPossibleUnit()) {
+//                tree2String.append("/" + s);
+//            }
+//            tree2String.append("]");
+//        } else {
+//            tree2String.append("[" + node.getType() + node.getIsDurationNeeded().toString() + "]");
+//        }
 
         ArrayList<String> segments = node.getSegments();
         if(segments == null) {
@@ -149,19 +162,27 @@ public class EMRInfoTree {
     }
 
     /******** util ********/
-    public EMRInfoNode getRoot() {
+    public EMRNode getRoot() {
         return this.root;
     }
 
-    public void addLeaf(EMRInfoNode node) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void addLeaf(EMRLeafNode node) {
         if(this.leaves == null) {
-            this.leaves = new ArrayList<EMRInfoNode>();
+            this.leaves = new ArrayList<EMRLeafNode>();
         }
 
         this.leaves.add(node);
     }
 
-    public ArrayList<EMRInfoNode> getLeaves() {
+    public ArrayList<EMRLeafNode> getLeaves() {
         return this.leaves;
     }
 }
