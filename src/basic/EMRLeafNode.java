@@ -1,5 +1,6 @@
 package basic;
 
+import javax.swing.text.Segment;
 import java.util.*;
 
 /**
@@ -7,17 +8,18 @@ import java.util.*;
  */
 public class EMRLeafNode extends EMRNode {
     private ArrayList<String> alias = null;
-    private ArrayList<String> segments = null;
+    private ArrayList<EMRSegment> segments = null;
     private int type = 1;
-    private Boolean exist = null; // null: [无此项]; true: [存在]; false: [不存在].
+    private Boolean exist = true; //true: [存在]; false: [不存在].
+    private Boolean yesOrNo = null;
     // type[1] leaf node
-    private Boolean isNegative = false;
     private Boolean isDurationNeeded = false; // 是否需要提取患病/症状持续时间【年/月/日/小时】
-    private String duration = null;
+    // 家族史中需要统计亲属患病的情况
+    protected Boolean isRelativesNeeded = false;
+    // 家族史中可能需要关注其他关键词
+    protected ArrayList<String> possibleOtherKeywords = null;
     // type[2] leaf node
-    private String value = null;
     private ArrayList<String> possibleUnit = null;
-    private String unit = null;
 
     public EMRLeafNode (String name, int level) {
         super(name, level);
@@ -34,15 +36,34 @@ public class EMRLeafNode extends EMRNode {
     public void setSegments() {
         String copy = this.content.replaceAll("，", "---");
         copy = copy.replaceAll("。", "---");
+        copy = copy.replaceAll("；", "---");
         copy = copy.replaceAll("\n", "---");
         String sentence[] = copy.split("---");
 
         for(String s : sentence) {
             String find = containsAny(s);
             if(find != null) {
-                s = s.replace(find, "[" + find + "]");
-                addSegment(s);
+//                EMRSegment newSegment = (this.type == 1)? new EMRSegmentOfExist(find, s, this.isDurationNeeded): new EMRSegmentOfValue(find, s, this.isDurationNeeded, this.possibleUnit);
+                EMRSegment newSegment = null;
+                if(this.type == 1) {
+                    newSegment = new EMRSegmentOfExist(find, s, this.isDurationNeeded, this.isRelativesNeeded);
+                    this.yesOrNo = newSegment.parse();
+                } else {
+                    newSegment = new EMRSegmentOfValue(find, s, this.isDurationNeeded, this.isRelativesNeeded, this.possibleUnit);
+                    newSegment.parse();
+//                    if(!newSegment.parse()) {
+//                        addSegment(newSegment);
+//                    }
+                }
+                if(this.possibleOtherKeywords != null) {
+                    newSegment.extractOtherKeywords(this.possibleOtherKeywords);
+                }
+                addSegment(newSegment);
             }
+        }
+
+        if(this.segments == null) {
+            this.exist = false;
         }
     }
 
@@ -81,15 +102,15 @@ public class EMRLeafNode extends EMRNode {
         return this.alias;
     }
 
-    public void addSegment(String seg) {
+    public void addSegment(EMRSegment seg) {
         if(this.segments == null) {
-            this.segments = new ArrayList<String>();
+            this.segments = new ArrayList<EMRSegment>();
         }
 
         this.segments.add(seg);
     }
 
-    public ArrayList<String> getSegments() {
+    public ArrayList<EMRSegment> getSegments() {
         return this.segments;
     }
 
@@ -97,11 +118,23 @@ public class EMRLeafNode extends EMRNode {
         return this.exist;
     }
 
-    // type[1] util
-    public String getDuration() {
-        return this.duration;
+    public Boolean getYesOrNo() {
+        return this.yesOrNo;
     }
 
+    public void setIsRelativesNeeded(Boolean isRelativesNeeded) {
+        this.isRelativesNeeded = isRelativesNeeded;
+    }
+
+    public void addPossibleOtherKeywords(String otherKeyword) {
+        if(this.possibleOtherKeywords == null) {
+            this.possibleOtherKeywords = new ArrayList<String>();
+        }
+
+        this.possibleOtherKeywords.add(otherKeyword);
+    }
+
+    // type[1] util
     public void setIsDurationNeeded() {
         this.isDurationNeeded = true;
     }
@@ -111,14 +144,6 @@ public class EMRLeafNode extends EMRNode {
     }
 
     // type[2] util
-    public String getValue() {
-        return this.value;
-    }
-
-    public String getUnit() {
-        return this.unit;
-    }
-
     public void addPossibleUnit(String unit) {
         if(this.possibleUnit == null) {
             this.possibleUnit = new ArrayList<String>();

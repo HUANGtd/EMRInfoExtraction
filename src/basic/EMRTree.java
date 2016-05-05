@@ -115,6 +115,9 @@ public class EMRTree {
     }
 
     public void printLeaf(EMRLeafNode node, StringBuffer tree2String) {
+        if(node.getExist() == false) {
+            return;
+        }
         for(int i = 0; i < node.getLevel()-1; i++) {
             tree2String.append("    ");
         }
@@ -137,12 +140,19 @@ public class EMRTree {
 //            tree2String.append("[" + node.getType() + node.getIsDurationNeeded().toString() + "]");
 //        }
 
-        ArrayList<String> segments = node.getSegments();
-        if(segments == null) {
-            tree2String.append(": 0");
+        ArrayList<EMRSegment> segments = node.getSegments();
+        if(node.getExist() == null) {
+            tree2String.append(": 未找到");
         } else {
-            tree2String.append(": " + segments.size() + "\n");
-            for(String s : segments) {
+            if(node.getYesOrNo() == null) {
+                tree2String.append(": " + segments.size() + "\n");
+            } else if(node.getYesOrNo() == true) {
+                tree2String.append(": 是\n");
+            } else {
+                tree2String.append(": 否\n");
+            }
+
+            for(EMRSegment s : segments) {
                 for(int i = 0; i < node.getLevel(); i++) {
                     tree2String.append("    ");
                 }
@@ -150,7 +160,37 @@ public class EMRTree {
                 for(int i = 0; i < node.getLevel(); i++) {
                     tree2String.append("    ");
                 }
-                tree2String.append("| “" + s + "”\n");
+                tree2String.append("| ");
+
+                // 如果需要考虑+原文中存在患病时长
+                if(node.getIsDurationNeeded() == true) {
+                    if(s.getDuration() != null) {
+                        tree2String.append("[" + s.getDuration() + "] | ");
+                    }
+                }
+
+                // 如果需要考虑+原文中存在亲属患病
+                if(s.getRelatives() != null) {
+                    for(String keyword : s.getRelatives()) {
+                        tree2String.append("[" + keyword + "]");
+                    }
+                    tree2String.append(" | ");
+                }
+
+                // 如果需要考虑+原文中存在其他关键词
+                if(s.getOtherKeywords() != null) {
+                    for(String keyword : s.getOtherKeywords()) {
+                        tree2String.append("[" + keyword + "]");
+                    }
+                    tree2String.append(" | ");
+                }
+
+                // 如果提出到了值
+                tree2String.append("[" + s.getKeyword() + "]");
+                if(s.getValue() != null) {
+                    tree2String.append("[" + s.getValue() + "]" + "[" + s.getUnit() + "]");
+                }
+                tree2String.append(" | “" + s.getContext() + "”\n");
                 for(int i = 0; i < node.getLevel(); i++) {
                     tree2String.append("    ");
                 }

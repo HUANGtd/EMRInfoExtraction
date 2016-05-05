@@ -88,11 +88,16 @@ public class DataInput {
 
                     if(a[0].equals("+")) {
                         node.setIsDurationNeeded();
+                    } else if(a[0].equals("--")) {
+                        node.setIsRelativesNeeded(true);
                     }
 
                     if(a.length > 2) {
                         int i;
                         for(i = 2; i < a.length; i++) {
+                            if(a[i].equals("")) {
+                                continue;
+                            }
                             if(a[i].startsWith("*")) {
                                 node.setType(2);
                                 break;
@@ -101,7 +106,21 @@ public class DataInput {
                         }
 
                         for(; i < a.length; i++) {
+                            if(a[i].equals("")) {
+                                continue;
+                            }
+                            if(a[i].startsWith("#")) {
+                                node.setType(2);
+                                break;
+                            }
                             node.addPossibleUnit(a[i].substring(1));
+                        }
+
+                        for(; i < a.length; i++) {
+                            if(a[i].equals("")) {
+                                continue;
+                            }
+                            node.addPossibleOtherKeywords(a[i].substring(1));
                         }
                     }
 
