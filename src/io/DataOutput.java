@@ -4,12 +4,12 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Created by huang.tudou
+ * Created by hhw on 4/22/16.
  */
-public class DataOutputTXT {
+public class DataOutput {
     String fileName = null;
 
-    public DataOutputTXT(String fileName) {
+    public DataOutput(String fileName) {
         this.fileName = fileName;
     }
 
