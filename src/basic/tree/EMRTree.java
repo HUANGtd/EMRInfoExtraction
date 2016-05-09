@@ -30,8 +30,9 @@ public class EMRTree {
         }
 
         for(EMRLeafNode leaf : this.leaves) {
-            if(leaf.getContent() != null)
+            if(leaf.getContent() != null) {
                 leaf.setSegments();
+            }
         }
     }
 

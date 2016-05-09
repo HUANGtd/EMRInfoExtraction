@@ -62,6 +62,10 @@ public abstract class EMRSegment {
             valueIn = this.context.substring(0, this.context.indexOf("得有" + this.keyword));
         } else if(this.context.contains("有" + this.keyword)) {
             valueIn = this.context.substring(0, this.context.indexOf("有" + this.keyword));
+        } else if(this.context.contains("诊断" + this.keyword)) {
+            valueIn = this.context.substring(0, this.context.indexOf("诊断" + this.keyword));
+        } else if(this.context.contains("死于" + this.keyword)) {
+            valueIn = this.context.substring(0, this.context.indexOf("死于" + this.keyword));
         } else {
             return;
         }
