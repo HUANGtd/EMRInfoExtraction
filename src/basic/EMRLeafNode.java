@@ -42,15 +42,18 @@ public class EMRLeafNode extends EMRNode {
 
         for(String s : sentence) {
             String find = containsAny(s);
+
             if(find != null) {
 //                EMRSegment newSegment = (this.type == 1)? new EMRSegmentOfExist(find, s, this.isDurationNeeded): new EMRSegmentOfValue(find, s, this.isDurationNeeded, this.possibleUnit);
                 EMRSegment newSegment = null;
+
                 if(this.type == 1) {
                     newSegment = new EMRSegmentOfExist(find, s, this.isDurationNeeded, this.isRelativesNeeded);
                     this.yesOrNo = newSegment.parse();
                 } else {
                     newSegment = new EMRSegmentOfValue(find, s, this.isDurationNeeded, this.isRelativesNeeded, this.possibleUnit);
                     newSegment.parse();
+
 //                    if(!newSegment.parse()) {
 //                        addSegment(newSegment);
 //                    }

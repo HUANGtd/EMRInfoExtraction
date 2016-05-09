@@ -5,7 +5,7 @@ package basic;
  */
 public class EMRSegmentOfExist extends EMRSegment{
     private Boolean isNegative = false;
-    private String[] negativeWord = {"否认", "不存在", "未发现", "无"};
+    private String[] negativeWord = {"否认", "不存在", "未发现", "无", "不伴"};
 
     public EMRSegmentOfExist(String keyword, String context, Boolean isDurationNeeded, Boolean isRelativesNeeded) {
         super(keyword, context, isDurationNeeded, isRelativesNeeded);

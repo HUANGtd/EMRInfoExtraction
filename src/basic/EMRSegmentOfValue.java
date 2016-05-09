@@ -20,20 +20,24 @@ public class EMRSegmentOfValue extends EMRSegment{
         super.extractDuration();
         super.extractRelatives();
 
-        String cutFormKeyword = super.context.substring(super.context.indexOf(super.keyword) + super.keyword.length());
+        String cutFormKeyword = this.context.substring(this.context.indexOf(this.keyword) + this.keyword.length());
 
         for(String u : this.possibleUnit) {
-            if(cutFormKeyword.contains(u)) {
+            String lowerCaseOfUnit = u.toLowerCase();
+            String lowerCaseOfCutFormKeyword = cutFormKeyword.toLowerCase();
+
+            if(lowerCaseOfCutFormKeyword.contains(lowerCaseOfUnit)) {
                 this.unit = u;
-                if(u.contains("^")) {
-                    u = u.substring(0, u.indexOf("^"));
-                } else if(u.contains("*")) {
-                    u = u.substring(0, u.indexOf("*"));
+                if(lowerCaseOfUnit.contains("^")) {
+                    lowerCaseOfUnit = lowerCaseOfUnit.substring(0, lowerCaseOfUnit.indexOf("^"));
+                } else if(lowerCaseOfUnit.contains("*")) {
+                    lowerCaseOfUnit = lowerCaseOfUnit.substring(0, lowerCaseOfUnit.indexOf("*"));
                 }
-                Pattern pattern = Pattern.compile("(([1-9]+[0-9]*(\\.[0-9]+)?)|(0\\.[0-9]+))((-|/)(([1-9]+[0-9]*(\\.[0-9]+)?)|(0\\.[0-9]+)))?" + u);
-                Matcher matcher = pattern.matcher(cutFormKeyword);
+                Pattern pattern = Pattern.compile("(([1-9]+[0-9]*(\\.[0-9]+)?)|(0\\.[0-9]+))((-|/)(([1-9]+[0-9]*(\\.[0-9]+)?)|(0\\.[0-9]+)))?" + lowerCaseOfUnit);
+                Matcher matcher = pattern.matcher(lowerCaseOfCutFormKeyword);
+
                 if(matcher.find()) {
-                    this.value = matcher.group(0).substring(0, matcher.group(0).indexOf(u));
+                    this.value = matcher.group(0).substring(0, matcher.group(0).indexOf(lowerCaseOfUnit));
                 }
 
                 return true;

@@ -9,10 +9,10 @@ import java.io.*;
 /**
  * Created by huang.tudou
  */
-public class DataInput {
+public class DataInputTXT {
     String fileName = null;
 
-    public DataInput(String fileName) {
+    public DataInputTXT(String fileName) {
         this.fileName = fileName;
     }
 
