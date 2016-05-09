@@ -1,6 +1,4 @@
-import basic.EMRTree;
-import io.DictInputTXT;
-import io.DataOutputTXT;
+import basic.EMRInfoExtractionTask;
 
 /**
  * Created by huang.tudou
