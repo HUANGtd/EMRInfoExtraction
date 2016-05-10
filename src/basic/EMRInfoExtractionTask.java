@@ -14,6 +14,7 @@ public class EMRInfoExtractionTask {
     private DictInputTXT dictInputTXT = null;
     private EMRInput emrInput = null;
     private DataOutputTXT dataOutput2TXT = null;
+    private DataOutputTXT dataOutput2md = null;
 
     public EMRInfoExtractionTask(String name, String folderName) {
         this.name = name;
@@ -21,6 +22,7 @@ public class EMRInfoExtractionTask {
         this.dictInputTXT = new DictInputTXT("data/intermediate/dictionary/" + name + ".txt");
         this.emrInput = new EMRInput("data/input/emr/" + folderName + "/" + name + ".xml");
         this.dataOutput2TXT = new DataOutputTXT("data/intermediate/result/" + folderName + "/" + folderName + "_" + name + ".txt");
+        this.dataOutput2md = new DataOutputTXT("data/output/" + folderName + "/" + folderName + "_" + name + ".md");
     }
 
     // import dictionary and generate tree
@@ -36,6 +38,10 @@ public class EMRInfoExtractionTask {
     // out put
     public void output2txt() {
         this.dataOutput2TXT.OutPut2txt(this.emrTree.toString());
+    }
+
+    public void output2md() {
+        this.dataOutput2md.OutPut2txt(this.emrTree.toStringMd());
     }
 
     /******** util ********/

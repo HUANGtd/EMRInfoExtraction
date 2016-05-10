@@ -28,8 +28,8 @@ public class EMRInfoExtraction {
                     task = new EMRInfoExtractionTask(name, folderName);
                     task.genEMRTree();
                     task.extractionInfo();
-//                    task.print();
-                    task.output2txt();
+//                    task.output2txt();
+                    task.output2md();
                 }
             }
         }
