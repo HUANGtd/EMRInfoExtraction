@@ -2,7 +2,6 @@ import basic.EMRInfoExtractionTask;
 import io.DictInputExcel;
 
 import java.io.File;
-import java.util.AbstractList;
 import java.util.ArrayList;
 
 /**
@@ -14,6 +13,8 @@ public class EMRInfoExtraction {
         dictInputExcel.parseXLSXFile();
 
         File inputFolder = new File("data/input/emr");
+        if(!inputFolder.exists())
+            inputFolder.mkdirs();
         File[] patientFolders = inputFolder.listFiles();
         for(File patientFolder : patientFolders) {
             if(patientFolder.isDirectory()) {
