@@ -3,26 +3,25 @@ package basic.segment;
 /**
  * Created by hhw on 5/5/16.
  */
-public class EMRSegmentOfExist extends EMRSegment{
+public class EMRSegmentOfExist extends EMRSegment {
+    private Boolean yesOrNo = true;
     private Boolean isNegative = false;
-    private String[] negativeWord = {"否认", "不存在", "未发现", "无", "不伴"};
+    private String[] negativeWord = {"否认", "不存在", "未发现", "无", "不伴", "未"};
 
-    public EMRSegmentOfExist(String keyword, String context, Boolean isDurationNeeded, Boolean isRelativesNeeded) {
-        super(keyword, context, isDurationNeeded, isRelativesNeeded);
+    public EMRSegmentOfExist(String keyword, String context, Boolean isDurationNeeded) {
+        super(keyword, context, isDurationNeeded);
     }
 
-    public Boolean parse() {
+    public void parse() {
         super.extractDuration();
-        super.extractRelatives();
 
         for(String s : this.negativeWord) {
             if(super.context.startsWith(s)) {
                 this.isNegative = true;
-                return false;
+                this.yesOrNo = false;
+                return;
             }
         }
-
-        return true;
     }
 
     /******** util ********/
@@ -34,11 +33,7 @@ public class EMRSegmentOfExist extends EMRSegment{
         return this.isNegative;
     }
 
-    public String getValue() {
-        return null;
-    }
-
-    public String getUnit() {
-        return null;
+    public Boolean getYesOrNo() {
+        return this.yesOrNo;
     }
 }

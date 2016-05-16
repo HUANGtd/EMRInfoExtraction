@@ -9,16 +9,18 @@ import io.*;
 public class EMRInfoExtractionTask {
     private String name = null;
     private EMRTree emrTree = null;
-    private DictInputTXT dictInputTXT = null;
+    private DictInputText dictInputTXT = null;
     private EMRInput emrInput = null;
-    private DataOutputTXT dataOutput2TXT = null;
+    private DataOutputText dataOutput2TXT = null;
+    private DataOutputText dataOutput2md = null;
 
-    public EMRInfoExtractionTask(String dictInputTXT, String emrInput, String output) {
+    public EMRInfoExtractionTask(String name, String folderName, String originName) {
+        this.name = name;
         this.emrTree = new EMRTree();
-        this.dictInputTXT = new DictInputTXT(dictInputTXT);
-        this.emrInput = new EMRInput(emrInput);
-        this.dataOutput2TXT = new DataOutputTXT(output);
-        this.name = genName(dictInputTXT);
+        this.dictInputTXT = new DictInputText("data/intermediate/dictionary/" + name + ".txt");
+        this.emrInput = new EMRInput("data/input/emr/" + folderName + "/" + originName + ".xml");
+        this.dataOutput2TXT = new DataOutputText("data/intermediate/result/" + folderName + "/" + folderName + "_" + originName + ".txt");
+        this.dataOutput2md = new DataOutputText("data/output/" + folderName + "/" + folderName + "_" + originName + ".md");
     }
 
     // import dictionary and generate tree
@@ -29,12 +31,15 @@ public class EMRInfoExtractionTask {
     // infomation extraction
     public void extractionInfo() {
         this.emrTree.parseEMRData(this.emrInput.EMRDataReader());
-
     }
 
     // out put
     public void output2txt() {
         this.dataOutput2TXT.OutPut2txt(this.emrTree.toString());
+    }
+
+    public void output2md() {
+        this.dataOutput2md.OutPut2txt(this.emrTree.toStringMd());
     }
 
     /******** util ********/
@@ -44,7 +49,7 @@ public class EMRInfoExtractionTask {
         int endIndex = s.lastIndexOf(".");
 
         if((startIndex != -1) && (endIndex != -1)) {
-            name = s.substring(startIndex+1, endIndex);
+            name = s.substring(startIndex + 1, endIndex);
         }
 
         return name;
