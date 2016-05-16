@@ -6,10 +6,10 @@ import java.util.*;
 /**
  * Created by huang.tudou
  */
-public class DataOutputTXT {
+public class DataOutputText {
     String fileName = null;
 
-    public DataOutputTXT(String fileName) {
+    public DataOutputText(String fileName) {
         this.fileName = fileName;
     }
 

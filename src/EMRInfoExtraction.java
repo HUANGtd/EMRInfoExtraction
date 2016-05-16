@@ -25,12 +25,23 @@ public class EMRInfoExtraction {
                 String folderName = patientFolder.getPath().substring(index + 1);
                 EMRInfoExtractionTask task;
                 ArrayList<String> taskName = dictInputExcel.getTaskName();
-                for(String name : taskName) {
-                    task = new EMRInfoExtractionTask(name, folderName);
-                    task.genEMRTree();
-                    task.extractionInfo();
-//                    task.output2txt();
-                    task.output2md();
+                File[] patientFiles = patientFolder.listFiles();
+                for(File patientFile : patientFiles) {
+                    int sIndex = patientFile.getPath().lastIndexOf("/");
+                    int eIndex = patientFile.getPath().lastIndexOf(".");
+                    if(sIndex == -1 || eIndex == -1) {
+                        continue;
+                    }
+                    String originName = patientFile.getPath().substring(sIndex + 1, eIndex);
+                    for(String name : taskName) {
+                        if(originName.contains(name)) {
+                            task = new EMRInfoExtractionTask(name, folderName, originName);
+                            task.genEMRTree();
+                            task.extractionInfo();
+                            task.output2txt();
+                            task.output2md();
+                        }
+                    }
                 }
             }
         }

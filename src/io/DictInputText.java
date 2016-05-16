@@ -9,13 +9,13 @@ import java.io.*;
 /**
  * Created by huang.tudou
  */
-public class DictInputTXT {
+public class DictInputText {
     private final static int TYPE_OF_EXIST = 1;
     private final static int TYPE_OF_VALUE = 2;
     private final static int TYPE_OF_FAMILY_HISTORY = 3;
     private String fileName = null;
 
-    public DictInputTXT(String fileName) {
+    public DictInputText(String fileName) {
         this.fileName = fileName;
     }
 
@@ -40,7 +40,7 @@ public class DictInputTXT {
 
                 if(a[0].equals("##")) {
                     if(father == null) {
-                        System.out.println("Error: 缺少一级节点");
+                        throw new RuntimeException("！输入文件有误：未标识的一级节点（#）");
                     }
                     subFather = new EMRNode(a[1], father.getLevel()+1);
                     subFather.setFather(father);
@@ -50,15 +50,17 @@ public class DictInputTXT {
                     father = new EMRNode(a[1], root.getLevel()+1);
                     father.setFather(root);
                     root.addChild(father);
-                } else {
+                } else if(!a[0].equals("")){
                     if(subFather != null) {
                         node = new EMRLeafNode(a[1], subFather.getLevel()+1);
                         node.setFather(subFather);
                         subFather.addChild(node);
-                    } else {
+                    } else if(father != null){
                         node = new EMRLeafNode(a[1], father.getLevel()+1);
                         node.setFather(father);
                         father.addChild(node);
+                    } else {
+                        throw new RuntimeException("！输入文件有误：未标识的一级节点（#）");
                     }
 
                     if(a[0].equals("+")) {
@@ -68,6 +70,8 @@ public class DictInputTXT {
                         node.setIsRelativesNeeded(true);
                     } else if(a[0].equals("=")) {
                         node.setType(TYPE_OF_FAMILY_HISTORY);
+                    } else if(! a[0].equals("-")) {
+                        throw new RuntimeException("！输入文件有误：存在未标识的关键词或者关键词标识有误");
                     }
 
                     if(a.length > 2) {

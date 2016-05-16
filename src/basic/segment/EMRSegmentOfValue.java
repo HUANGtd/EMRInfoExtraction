@@ -50,7 +50,7 @@ public class EMRSegmentOfValue extends EMRSegment {
             @Override
             public int compare(String unit1, String unit2)
             {
-                return  unit1.compareTo(unit2);
+                return  unit2.length() - unit1.length();
             }
         });
     }

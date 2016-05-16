@@ -6,7 +6,7 @@ import java.util.*;
 import org.apache.poi.xssf.usermodel.*;
 
 /**
- * Created by hhw on 5/9/16.
+ * Created by huang.tudou on 5/9/16.
  */
 public class DictInputExcel {
     private String inputFileName = null;
@@ -45,7 +45,11 @@ public class DictInputExcel {
                         cell = (XSSFCell)cells.next();
 
                         if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
-                            writer.write(cell.getStringCellValue() + " ");
+                            String strCell = cell.getStringCellValue();
+                            strCell = strCell.replaceAll(" ", "");
+                            if(!strCell.equals("")) {
+                                writer.write(strCell + " ");
+                            }
                         }
                     }
                     writer.write("\n");

@@ -110,9 +110,8 @@ public class EMRLeafNode extends EMRNode {
     public void sortAlias() {
         Collections.sort(this.alias, new Comparator<String>() {
             @Override
-            public int compare(String alias1, String alias2)
-            {
-                return  alias2.compareTo(alias1);
+            public int compare(String alias1, String alias2) {
+                return  alias2.length() - alias1.length();
             }
         });
     }

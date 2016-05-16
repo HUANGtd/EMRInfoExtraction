@@ -3,26 +3,24 @@ package basic;
 import basic.tree.EMRTree;
 import io.*;
 
-import java.io.File;
-
 /**
  * Created by huang.tudou on 5/9/16.
  */
 public class EMRInfoExtractionTask {
     private String name = null;
     private EMRTree emrTree = null;
-    private DictInputTXT dictInputTXT = null;
+    private DictInputText dictInputTXT = null;
     private EMRInput emrInput = null;
-    private DataOutputTXT dataOutput2TXT = null;
-    private DataOutputTXT dataOutput2md = null;
+    private DataOutputText dataOutput2TXT = null;
+    private DataOutputText dataOutput2md = null;
 
-    public EMRInfoExtractionTask(String name, String folderName) {
+    public EMRInfoExtractionTask(String name, String folderName, String originName) {
         this.name = name;
         this.emrTree = new EMRTree();
-        this.dictInputTXT = new DictInputTXT("data/intermediate/dictionary/" + name + ".txt");
-        this.emrInput = new EMRInput("data/input/emr/" + folderName + "/" + name + ".xml");
-        this.dataOutput2TXT = new DataOutputTXT("data/intermediate/result/" + folderName + "/" + folderName + "_" + name + ".txt");
-        this.dataOutput2md = new DataOutputTXT("data/output/" + folderName + "/" + folderName + "_" + name + ".md");
+        this.dictInputTXT = new DictInputText("data/intermediate/dictionary/" + name + ".txt");
+        this.emrInput = new EMRInput("data/input/emr/" + folderName + "/" + originName + ".xml");
+        this.dataOutput2TXT = new DataOutputText("data/intermediate/result/" + folderName + "/" + folderName + "_" + originName + ".txt");
+        this.dataOutput2md = new DataOutputText("data/output/" + folderName + "/" + folderName + "_" + originName + ".md");
     }
 
     // import dictionary and generate tree
