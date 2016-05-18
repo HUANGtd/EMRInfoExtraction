@@ -53,6 +53,7 @@ public class EMRTree {
 
     public String getContent(String name, String data) {
         String content = null;
+        data = data.replaceAll("\\s*", "");
         int startIndex = data.indexOf("<Name>" + name + "</Name><InnerValue>");
         int endIndex = data.indexOf("</InnerValue><BackgroundText>" + name + "</BackgroundText>");
 
@@ -63,8 +64,8 @@ public class EMRTree {
         content = data.substring(startIndex, endIndex);
         String mark = "<InnerValue>";
         content = content.substring(content.indexOf(mark) + mark.length());
-        content = content.replaceAll(" ", ""); // remove blanks
-//        content = content.replaceAll("\\s*", "");
+//        content = content.replaceAll(" ", ""); // remove blanks
+        content = content.replaceAll("\\s*", "");
 
         return content;
     }

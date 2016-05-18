@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.poi.xssf.usermodel.*;
+import util.FileUlitity;
 
 /**
  * Created by huang.tudou on 5/9/16.
@@ -16,7 +17,7 @@ public class DictInputExcel {
         this.inputFileName = inputFileName;
     }
 
-    public void parseXLSXFile() {
+    public void parseXLSXFile2txt() {
         try {
             InputStream ExcelFileToRead = new FileInputStream(this.inputFileName);
             XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
@@ -31,11 +32,9 @@ public class DictInputExcel {
                 String sheetName = sheet.getSheetName();
 
                 // output to as .txt
-                String outputfilePath = "data/intermediate/dictionary/" + sheetName + ".txt";
+                String outputfilePath = "data" + File.separator + "intermediate"+ File.separator + "dictionary"+ File.separator + sheetName + ".txt";
                 File file = new File(outputfilePath);
-                if(!file.exists()) {
-                    file.createNewFile();
-                }
+                FileUlitity.makeFileDirectory(outputfilePath);
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
 
                 while(rows.hasNext()) {

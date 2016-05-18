@@ -3,6 +3,8 @@ package basic;
 import basic.tree.EMRTree;
 import io.*;
 
+import java.io.File;
+
 /**
  * Created by huang.tudou on 5/9/16.
  */
@@ -17,10 +19,10 @@ public class EMRInfoExtractionTask {
     public EMRInfoExtractionTask(String name, String folderName, String originName) {
         this.name = name;
         this.emrTree = new EMRTree();
-        this.dictInputTXT = new DictInputText("data/intermediate/dictionary/" + name + ".txt");
-        this.emrInput = new EMRInput("data/input/emr/" + folderName + "/" + originName + ".xml");
-        this.dataOutput2TXT = new DataOutputText("data/intermediate/result/" + folderName + "/" + folderName + "_" + originName + ".txt");
-        this.dataOutput2md = new DataOutputText("data/output/" + folderName + "/" + folderName + "_" + originName + ".md");
+        this.dictInputTXT = new DictInputText("data" + File.separator + "intermediate" + File.separator + "dictionary"+ File.separator + name + ".txt");
+        this.emrInput = new EMRInput("data" + File.separator + "input"+ File.separator + "emr" + File.separator + folderName + File.separator + originName + ".xml");
+        this.dataOutput2TXT = new DataOutputText("data"+ File.separator + "output"+ File.separator + folderName + File.separator + "txt"+ File.separator + folderName + "_" + originName + ".txt");
+        this.dataOutput2md = new DataOutputText("data" + File.separator + "output"+ File.separator + folderName + File.separator + "md"+ File.separator + folderName + "_" + originName + ".md");
     }
 
     // import dictionary and generate tree
@@ -57,6 +59,10 @@ public class EMRInfoExtractionTask {
 
     public String getName() {
         return this.name;
+    }
+
+    public EMRTree getEmrTree() {
+        return this.emrTree;
     }
 
     public void print() {

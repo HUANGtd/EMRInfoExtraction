@@ -30,30 +30,32 @@ public class EMRSegmentOfFamilyHistory extends EMRSegmentOfValue {
         String[] family = {"母亲", "父亲", "妈妈", "舅舅", "姑姑", "爸爸", "哥哥", "弟弟", "姐姐", "妹妹", "儿子", "女儿"};
         String valueIn = null;
 
-        if(this.context.contains("患有" + this.keyword)) {
-            valueIn = this.context.substring(0, this.context.indexOf("患有" + this.keyword));
-        } else if(this.context.contains("得有" + this.keyword)) {
-            valueIn = this.context.substring(0, this.context.indexOf("得有" + this.keyword));
-        } else if(this.context.contains("患上" + this.keyword)) {
-            valueIn = this.context.substring(0, this.context.indexOf("患上" + this.keyword));
-        } else if(this.context.contains("有" + this.keyword)) {
-            valueIn = this.context.substring(0, this.context.indexOf("有" + this.keyword));
-        } else if(this.context.contains("诊断" + this.keyword)) {
-            valueIn = this.context.substring(0, this.context.indexOf("诊断" + this.keyword));
-        } else if(this.context.contains("死于" + this.keyword)) {
-            valueIn = this.context.substring(0, this.context.indexOf("死于" + this.keyword));
-        } else {
-            return;
-        }
-
-        for(String s : family) {
-            if(valueIn.contains(s)) {
-                String content = this.context.substring(this.context.indexOf(s) + s.length(), this.context.indexOf(this.keyword));
-                this.addRelative(s, this.getAge(content));
+        if(this.context.contains(this.keyword)) {
+            if(this.context.contains("患有")) {
+                valueIn = this.context.substring(0, this.context.indexOf("患有"));
+            } else if(this.context.contains("得有")) {
+                valueIn = this.context.substring(0, this.context.indexOf("得有"));
+            } else if(this.context.contains("患上")) {
+                valueIn = this.context.substring(0, this.context.indexOf("患上"));
+            } else if(this.context.contains("有")) {
+                valueIn = this.context.substring(0, this.context.indexOf("有"));
+            } else if(this.context.contains("诊断")) {
+                valueIn = this.context.substring(0, this.context.indexOf("诊断"));
+            } else if(this.context.contains("死于")) {
+                valueIn = this.context.substring(0, this.context.indexOf("死于"));
+            } else {
+                return;
             }
-        }
-        if(this.relativesMapAge == null) {
-            this.value = this.getAge(this.context);
+
+            for(String s : family) {
+                if(valueIn.contains(s)) {
+                    String content = this.context.substring(this.context.indexOf(s) + s.length(), this.context.indexOf(this.keyword));
+                    this.addRelative(s, this.getAge(content));
+                }
+            }
+            if(this.relativesMapAge == null) {
+                this.value = this.getAge(this.context);
+            }
         }
     }
 

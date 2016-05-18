@@ -1,5 +1,7 @@
 package io;
 
+import util.FileUlitity;
+
 import java.io.*;
 import java.util.*;
 
@@ -16,13 +18,7 @@ public class DataOutputText {
     public void OutPut2txt(String tree) {
         try {
             File file = new File(fileName);
-            if(!file.exists()) {
-                File folder = new File(fileName.substring(0, fileName.lastIndexOf("/")));
-                if(!folder.exists()) {
-                    folder.mkdirs();
-                }
-                file.createNewFile();
-            }
+            FileUlitity.makeFileDirectory(fileName);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
             writer.write(tree);
             writer.close();

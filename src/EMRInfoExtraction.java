@@ -1,5 +1,7 @@
 import basic.EMRInfoExtractionTask;
+import io.DataOutputExcel;
 import io.DictInputExcel;
+import util.FileUlitity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,10 +11,13 @@ import java.util.ArrayList;
  */
 public class EMRInfoExtraction {
     public static void main(String args[]) {
-        DictInputExcel dictInputExcel = new DictInputExcel("data/input/2型糖尿病.xlsx");
-        dictInputExcel.parseXLSXFile();
+        DictInputExcel dictInputExcel = new DictInputExcel("data" + File.separator + "input" + File.separator + "2型糖尿病.xlsx");
+        dictInputExcel.parseXLSXFile2txt();
 
-        File inputFolder = new File("data/input/emr");
+        // delete exsisting files
+        FileUlitity.DeleteFolder("data"+ File.separator + "output");
+
+        File inputFolder = new File("data"+ File.separator + "input"+ File.separator + "emr");
         if(!inputFolder.exists())
             inputFolder.mkdirs();
         File[] patientFolders = inputFolder.listFiles();
@@ -22,9 +27,12 @@ public class EMRInfoExtraction {
                 if(index == -1) {
                     continue;
                 }
+
                 String folderName = patientFolder.getPath().substring(index + 1);
                 EMRInfoExtractionTask task;
                 ArrayList<String> taskName = dictInputExcel.getTaskName();
+                DataOutputExcel out2xlsx = new DataOutputExcel(folderName, "data" + File.separator + "output"+ File.separator + folderName + File.separator  + folderName + ".xlsx");
+
                 File[] patientFiles = patientFolder.listFiles();
                 for(File patientFile : patientFiles) {
                     int sIndex = patientFile.getPath().lastIndexOf("/");
@@ -38,6 +46,10 @@ public class EMRInfoExtraction {
                             task = new EMRInfoExtractionTask(name, folderName, originName);
                             task.genEMRTree();
                             task.extractionInfo();
+
+                            out2xlsx.addTree(originName, task.getEmrTree());
+                            out2xlsx.OutPut2xlsx();
+
                             task.output2txt();
                             task.output2md();
                         }
@@ -45,5 +57,7 @@ public class EMRInfoExtraction {
                 }
             }
         }
+
+        FileUlitity.DeleteFolder("data"+ File.separator + "intermediate");
     }
 }
