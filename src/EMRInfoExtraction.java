@@ -15,6 +15,7 @@ public class EMRInfoExtraction {
     public static void main(String args[]) {
         // delete exsisting files
         FileUlitity.DeleteFolder("data" + File.separator + "output");
+        FileUlitity.DeleteFolder("data" + File.separator + "log.md");
 
         LogWriter log = new LogWriter("data" + File.separator + "log.md");
         DictInputExcel dictInputExcel = new DictInputExcel("data" + File.separator + "input" + File.separator + "2型糖尿病.xlsx");
@@ -62,7 +63,7 @@ public class EMRInfoExtraction {
                         }
                     }
                 }
-                log.WriteLog("  - 文件夹`" + folderName + "`解析完毕。\n");
+                log.WriteLog("\n    - 文件夹`" + folderName + "`解析完毕。\n");
             }
         }
 
