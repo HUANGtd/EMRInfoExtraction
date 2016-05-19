@@ -16,7 +16,7 @@ public class EMRInfoExtraction {
         // delete exsisting files
         FileUlitity.DeleteFolder("data" + File.separator + "output");
 
-        LogWriter log = new LogWriter("data" + File.separator + "output" + File.separator + "log.md");
+        LogWriter log = new LogWriter("data" + File.separator + "log.md");
         DictInputExcel dictInputExcel = new DictInputExcel("data" + File.separator + "input" + File.separator + "2型糖尿病.xlsx");
         dictInputExcel.parseXLSXFile2txt();
         log.WriteLog("## 2型糖尿病病例分析日志\n");
