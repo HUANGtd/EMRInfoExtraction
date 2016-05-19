@@ -47,7 +47,7 @@ public class EMRInfoExtractionTask {
     /******** util ********/
     public String genName(String s) {
         String name = null;
-        int startIndex = s.lastIndexOf("/");
+        int startIndex = s.lastIndexOf(File.separator);
         int endIndex = s.lastIndexOf(".");
 
         if((startIndex != -1) && (endIndex != -1)) {
