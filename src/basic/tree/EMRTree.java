@@ -325,7 +325,7 @@ public class EMRTree {
         tree2String.append("\n");
     }
 
-    /******** util ********/
+    /******** io.util ********/
     public EMRNode getRoot() {
         return this.root;
     }

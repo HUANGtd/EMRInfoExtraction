@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.poi.xssf.usermodel.*;
-import util.FileUlitity;
+import io.util.FileUlitity;
 
 /**
  * Created by huang.tudou on 5/9/16.
@@ -64,7 +64,11 @@ public class DictInputExcel {
         }
     }
 
-    /******** util ********/
+    /******** io.util ********/
+    public String getInputFileName() {
+        return inputFileName;
+    }
+
     public void addTaskName(String name) {
         if(this.taskName == null) {
             this.taskName = new ArrayList<String>();

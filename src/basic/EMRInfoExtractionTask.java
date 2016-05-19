@@ -44,7 +44,7 @@ public class EMRInfoExtractionTask {
         this.dataOutput2md.OutPut2txt(this.emrTree.toStringMd());
     }
 
-    /******** util ********/
+    /******** io.util ********/
     public String genName(String s) {
         String name = null;
         int startIndex = s.lastIndexOf(File.separator);

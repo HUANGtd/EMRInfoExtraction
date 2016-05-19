@@ -41,7 +41,7 @@ public abstract class EMRSegment {
         }
     }
 
-    /******** util ********/
+    /******** io.util ********/
     public String getDuration() {
         return this.duration;
     }

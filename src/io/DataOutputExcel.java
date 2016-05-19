@@ -8,7 +8,7 @@ import basic.tree.EMRLeafNode;
 import basic.tree.EMRNode;
 import basic.tree.EMRTree;
 import org.apache.poi.xssf.usermodel.*;
-import util.FileUlitity;
+import io.util.FileUlitity;
 
 /**
  * Created by huang.tudou on 5/18/16.
@@ -170,7 +170,7 @@ public class DataOutputExcel {
         return rowNum;
     }
 
-    /********* util *********/
+    /********* io.util *********/
     public void addTree(String sheetName, EMRTree tree) {
         if(this.sheetName == null) {
             this.sheetName = new ArrayList<String>();

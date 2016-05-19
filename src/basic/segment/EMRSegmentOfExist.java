@@ -24,7 +24,7 @@ public class EMRSegmentOfExist extends EMRSegment {
         }
     }
 
-    /******** util ********/
+    /******** io.util ********/
     public void setIsNegative(Boolean isNegative) {
         this.isNegative = isNegative;
     }

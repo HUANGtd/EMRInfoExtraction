@@ -88,7 +88,7 @@ public class EMRLeafNode extends EMRNode {
         return null;
     }
 
-    /******** util ********/
+    /******** io.util ********/
     public int getType() {
         return this.type;
     }
@@ -156,7 +156,7 @@ public class EMRLeafNode extends EMRNode {
         }
     }
 
-    // type[1] util
+    // type[1] io.util
     public void setIsDurationNeeded() {
         this.isDurationNeeded = true;
     }
@@ -165,7 +165,7 @@ public class EMRLeafNode extends EMRNode {
         return this.isDurationNeeded;
     }
 
-    // type[2] util
+    // type[2] io.util
     public void addPossibleUnit(String unit) {
         if(this.possibleUnit == null) {
             this.possibleUnit = new ArrayList<String>();

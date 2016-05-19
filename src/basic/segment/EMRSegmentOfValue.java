@@ -44,7 +44,7 @@ public class EMRSegmentOfValue extends EMRSegment {
         }
     }
 
-    /******** util ********/
+    /******** io.util ********/
     public void sortUnits() {
         Collections.sort(this.possibleUnit, new Comparator<String>() {
             @Override

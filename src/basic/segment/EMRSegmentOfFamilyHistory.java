@@ -97,7 +97,7 @@ public class EMRSegmentOfFamilyHistory extends EMRSegmentOfValue {
         }
     }
 
-    /******** util ********/
+    /******** io.util ********/
     public void addRelative(String relative, String age) {
         if(this.relativesMapAge == null) {
             this.relativesMapAge = new HashMap<String, String>();
